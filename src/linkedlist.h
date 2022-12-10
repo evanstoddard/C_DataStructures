@@ -56,10 +56,12 @@ Node* LinkedList_create_node();
 
 void LinkedList_insert_front(LinkedList* l, Node* new_node);
 void LinkedList_insert_back(LinkedList* l, Node* new_node);
-void LinkedList_insert_after(LinkedList* l, Node* existing, Node* new_node);
 void LinkedList_insert_before(LinkedList* l, Node* existing, Node* new_node);
+void LinkedList_insert_after(LinkedList* l, Node* existing, Node* new_node);
 void LinkedList_replace(LinkedList* l, Node* existing, Node* new_node);
+void LinkedList_replace_and_delete(LinkedList* l, Node* existing, Node* new_node);
 void LinkedList_delete(LinkedList* l, Node* node);
+void LinkedList_clear(LinkedList* l, Node* node);
 
 const Node *LinkedList_head(LinkedList* l);
 const Node *LinkedList_tail(LinkedList* l);
