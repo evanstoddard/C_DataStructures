@@ -159,6 +159,7 @@ void LinkedList_insert_after(LinkedList* l, Node* existing, Node* new_node)
     if (existing == l->tail)
     {
         LinkedList_insert_back(l, new_node);
+		return;
     }
 
     /* Set new node next to existing next */

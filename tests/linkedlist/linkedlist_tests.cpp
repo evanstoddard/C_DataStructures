@@ -325,3 +325,104 @@ TEST_F(LinkedList_Tests, InsertBeforeTailDoubleValues)
 	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
 	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
 }
+
+/*****************************************************************************
+ * Insert After cases
+ *****************************************************************************/
+TEST_F(LinkedList_Tests, InsertAfterSingleHead)
+{
+	// Create nodes
+	Node *firstNode = LinkedList_create_node();
+	Node *secondNode = LinkedList_create_node();
+	firstNode->value = 0xDEADBEEF;
+	secondNode->value = 0xFEEDBEEF;
+
+	// Insert Front
+	LinkedList_insert_front(&_linkedList, firstNode);
+
+	// Insert second node after head
+	LinkedList_insert_after(&_linkedList, firstNode, secondNode);
+
+	// Verify head and tail are not same pointer
+	EXPECT_NE(_linkedList.head, _linkedList.tail);
+
+	// Verify value of head and tail are correct
+	EXPECT_EQ(_linkedList.head->value, 0xDEADBEEF);
+	EXPECT_EQ(_linkedList.tail->value, 0xFEEDBEEF);
+
+	// Expect old head is tail and new second node is new head
+	EXPECT_EQ(_linkedList.head, firstNode);
+	EXPECT_EQ(_linkedList.tail, secondNode);
+
+	// Verify size is 2
+	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
+	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
+}
+
+TEST_F(LinkedList_Tests, InsertAfterHeadDoubleValues)
+{
+	// Create nodes
+	Node *firstNode = LinkedList_create_node();
+	Node *secondNode = LinkedList_create_node();
+	Node *thirdNode = LinkedList_create_node();
+	firstNode->value = 0xDEADBEEF;
+	secondNode->value = 0xFEEDBEEF;
+	thirdNode->value = 0xCAFEF00D;
+
+	// Insert Front
+	LinkedList_insert_front(&_linkedList, firstNode);
+	LinkedList_insert_front(&_linkedList, secondNode);
+
+	// Insert second node after head
+	LinkedList_insert_after(&_linkedList, secondNode, thirdNode);
+
+	// Verify head and tail are not same pointer
+	EXPECT_NE(_linkedList.head, _linkedList.tail);
+
+	// Verify values are correct
+	EXPECT_EQ(_linkedList.head->value, 0xFEEDBEEF);
+	EXPECT_EQ(_linkedList.head->next->value, 0xCAFEF00D);
+	EXPECT_EQ(_linkedList.tail->value, 0xDEADBEEF);
+
+	// Expect head is new node and first node is tail
+	EXPECT_EQ(_linkedList.tail, firstNode);
+	EXPECT_EQ(_linkedList.head, secondNode);
+
+	// Verify size is 2
+	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
+	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
+}
+
+TEST_F(LinkedList_Tests, InsertAfterTailDoubleValues)
+{
+	// Create nodes
+	Node *firstNode = LinkedList_create_node();
+	Node *secondNode = LinkedList_create_node();
+	Node *thirdNode = LinkedList_create_node();
+	firstNode->value = 0xDEADBEEF;
+	secondNode->value = 0xFEEDBEEF;
+	thirdNode->value = 0xCAFEF00D;
+
+	// Insert Front
+	LinkedList_insert_front(&_linkedList, firstNode);
+	LinkedList_insert_front(&_linkedList, secondNode);
+
+	// Insert second node before head
+	LinkedList_insert_after(&_linkedList, firstNode, thirdNode);
+
+	// Verify head and tail are not same pointer
+	EXPECT_NE(_linkedList.head, _linkedList.tail);
+
+	// Verify values are correct
+	EXPECT_EQ(_linkedList.head->value, 0xFEEDBEEF);
+	EXPECT_EQ(_linkedList.head->next->value, 0xDEADBEEF);
+	EXPECT_EQ(_linkedList.tail->value, 0xCAFEF00D);
+
+	// Expect head is new node and first node is tail
+	EXPECT_EQ(_linkedList.tail, thirdNode);
+	EXPECT_EQ(_linkedList.head, secondNode);
+
+	// Verify size is 2
+	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
+	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
+}
