@@ -5,7 +5,7 @@
 /**
  * @file linkedlist.h
  * @author Evan Stoddard
- * @brief 
+ * @brief
  */
 
 #ifndef LINKEDLIST_H_
@@ -27,7 +27,7 @@ extern "C" {
  *****************************************************************************/
 /**
  * @brief Linked List Node struct
- * 
+ *
  */
 typedef struct Node
 {
@@ -37,7 +37,7 @@ typedef struct Node
 
 /**
  * @brief Linked List struct
- * 
+ *
  */
 typedef struct LinkedList
 {
@@ -45,7 +45,6 @@ typedef struct LinkedList
     Node *tail;
     size_t size;
 } LinkedList;
-
 
 /*****************************************************************************
  * Function Prototypes
@@ -58,15 +57,13 @@ void LinkedList_insert_front(LinkedList* l, Node* new_node);
 void LinkedList_insert_back(LinkedList* l, Node* new_node);
 void LinkedList_insert_before(LinkedList* l, Node* existing, Node* new_node);
 void LinkedList_insert_after(LinkedList* l, Node* existing, Node* new_node);
-void LinkedList_replace(LinkedList* l, Node* existing, Node* new_node);
-void LinkedList_replace_and_delete(LinkedList* l, Node* existing, Node* new_node);
-void LinkedList_delete(LinkedList* l, Node* node);
-void LinkedList_clear(LinkedList* l, Node* node);
+void LinkedList_remove(LinkedList* l, Node* node);
+void LinkedList_clear(LinkedList* l);
 
-const Node *LinkedList_head(LinkedList* l);
-const Node *LinkedList_tail(LinkedList* l);
 size_t LinkedList_size(LinkedList* l);
+
 #ifdef __cplusplus
-}
+};
 #endif
+
 #endif /* LINKEDLIST_H_ */

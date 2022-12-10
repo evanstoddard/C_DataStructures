@@ -5,7 +5,7 @@
 /**
  * @file linkedlist.c
  * @author Evan Stoddard
- * @brief 
+ * @brief
  */
 
 #include "linkedlist.h"
@@ -29,7 +29,7 @@
 
 /**
  * @brief Initialize linked list
- * 
+ *
  * @param l Pointer to linked list
  */
 void LinkedList_init(LinkedList* l)
@@ -43,7 +43,7 @@ void LinkedList_init(LinkedList* l)
 
 /**
  * @brief Creates an empty node
- * 
+ *
  * @return Node* Point to empty node
  */
 Node* LinkedList_create_node()
@@ -53,7 +53,7 @@ Node* LinkedList_create_node()
 
 /**
  * @brief Insert node at front of linked list
- * 
+ *
  * @param l Linked List
  * @param new_node Node to add
  */
@@ -77,7 +77,7 @@ void LinkedList_insert_front(LinkedList* l, Node* new_node)
 
 /**
  * @brief Insert node at end of linked list
- * 
+ *
  * @param l Linked list
  * @param new_node Node to add
  */
@@ -100,7 +100,7 @@ void LinkedList_insert_back(LinkedList* l, Node* new_node)
 
 /**
  * @brief Insert new before existing node
- * 
+ *
  * @param l Linked list
  * @param existing Existing node
  * @param new_node Node to add
@@ -118,7 +118,7 @@ void LinkedList_insert_before(LinkedList* l, Node* existing, Node* new_node)
     Node *ptr = l->head;
 
     /* Traverse through linked list */
-    while(!ptr)
+    while(ptr)
     {
         /* If node before existing is found */
         if (ptr->next == existing)
@@ -148,7 +148,7 @@ void LinkedList_insert_before(LinkedList* l, Node* existing, Node* new_node)
 
 /**
  * @brief Insert node after existing node
- * 
+ *
  * @param l Linked list
  * @param existing Existing node
  * @param new_node New node
@@ -169,4 +169,88 @@ void LinkedList_insert_after(LinkedList* l, Node* existing, Node* new_node)
 
     /* Increment size */
     l->size++;
+}
+
+/**
+ * @brief Remove item from linked list and memory
+ *
+ * @param l Linked list
+ * @param node Node to remove
+ */
+void LinkedList_remove(LinkedList* l, Node* node)
+{
+	/* If node is head then update head to next node */
+	if (node == l->head)
+	{
+		l->head = node->next;
+	}
+	else
+	{
+		/* Traverse through linked list */
+		Node* ptr = l->head;
+		while(ptr)
+		{
+			/* Find node before one to remove */
+			if (ptr->next == node)
+			{
+				break;
+			}
+		}
+
+		/* Return if node never found */
+		if (!ptr)
+		{
+			return;
+		}
+
+		/* Set ptr next to existing node's next time */
+		ptr->next = node->next;
+	}
+
+	/* Decrement size */
+	l->size--;
+
+	/* Make sure tail is NULL if new size is 0 */
+	if (!l->size)
+	{
+		l->tail = NULL;
+	}
+
+	/* Free memory */
+	free(node);
+}
+
+/**
+ * @brief Delete all elements in linked list
+ *
+ * @param l Linked list
+ */
+void LinkedList_clear(LinkedList* l)
+{
+	/* Do nothing if linked list empty*/
+	if (!l->size)
+	{
+		return;
+	}
+
+	Node *ptr = l->head;
+	do
+	{
+		Node *current = ptr;
+		ptr = current->next;
+
+		free(current);
+	}
+	while(ptr);
+}
+
+/**
+ * @brief Returns size of linked list
+ *
+ * @param l Linked list
+ * @return size_t Size
+ */
+size_t LinkedList_size(LinkedList* l)
+{
+	return l->size;
 }

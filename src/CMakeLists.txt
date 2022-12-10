@@ -7,17 +7,13 @@ add_compile_options(
     -Wextra
     -Wpedantic
     -Wnull-dereference
-    -Wstrict-aliasing=3
-    -Wduplicated-cond
     -Wtype-limits
     -Wsign-compare
-    -Waggressive-loop-optimizations
     -Wmissing-field-initializers
     -Wcast-align
     -Wpointer-arith
     -Wcast-qual
-    -Wimplicit-fallthrough=2
-    -fsanitize=undefined
+	-Wno-newline-eof
 )
 
 # Sources
@@ -33,6 +29,6 @@ set(datasstructures_HEADERS
 # Include Paths
 
 # Target
-add_library(datastructures
-    ${datastructures_SOURCES}
+add_library(datastructures STATIC
+	${datastructures_SOURCES}
 )
