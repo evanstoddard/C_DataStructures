@@ -34,7 +34,6 @@
  */
 void LinkedList_init(LinkedList* l)
 {
-    /* Initialize head and tail to null, initialize size to 0*/
     l->head = NULL;
     l->tail = NULL;
 
@@ -48,6 +47,7 @@ void LinkedList_init(LinkedList* l)
  */
 Node* LinkedList_create_node()
 {
+	/* Initialize node memory to 0 */
     return (Node*)calloc(1, sizeof(Node));
 }
 
@@ -59,13 +59,9 @@ Node* LinkedList_create_node()
  */
 void LinkedList_insert_front(LinkedList* l, Node* new_node)
 {
-    /* Set next of new node to current head*/
     new_node->next = l->head;
-
-    /* Update head to new node*/
     l->head = new_node;
 
-    /* Increment size */
     l->size++;
 
     /* Update tail to head if very first node */
@@ -90,11 +86,9 @@ void LinkedList_insert_back(LinkedList* l, Node* new_node)
         return;
     }
 
-    /* Update next node of tail and update tail to new node*/
     l->tail->next = new_node;
     l->tail = new_node;
 
-    /* Increment size */
     l->size++;
 }
 
@@ -107,42 +101,33 @@ void LinkedList_insert_back(LinkedList* l, Node* new_node)
  */
 void LinkedList_insert_before(LinkedList* l, Node* existing, Node* new_node)
 {
-    /* Insert front if existing node is linked list head and return */
+    /* Insert front if existing node is head and return */
     if (existing == l->head)
     {
         LinkedList_insert_front(l, new_node);
         return;
     }
 
-    /* Pointer for linked list traversal*/
+    /* Iterate through linked list to find node before exisiting  */
     Node *ptr = l->head;
-
-    /* Traverse through linked list */
     while(ptr)
     {
-        /* If node before existing is found */
         if (ptr->next == existing)
         {
             break;
         }
 
-        /* Next node */
         ptr = ptr->next;
     }
 
-    /* Return if node not found */
     if (!ptr)
     {
         return;
     }
 
-    /* Point new node next to existing*/
     new_node->next = existing;
-
-    /* Update node before existing next to new node*/
     ptr->next = new_node;
 
-    /* Increment size */
     l->size++;
 }
 
@@ -162,13 +147,9 @@ void LinkedList_insert_after(LinkedList* l, Node* existing, Node* new_node)
 		return;
     }
 
-    /* Set new node next to existing next */
     new_node->next = existing->next;
-
-    /* Set existing next to new node*/
     existing->next = new_node;
 
-    /* Increment size */
     l->size++;
 }
 
@@ -191,7 +172,6 @@ void LinkedList_remove(LinkedList* l, Node* node)
 		Node* ptr = l->head;
 		while(ptr)
 		{
-			/* Find node before one to remove */
 			if (ptr->next == node)
 			{
 				break;
@@ -200,13 +180,11 @@ void LinkedList_remove(LinkedList* l, Node* node)
 			ptr = ptr->next;
 		}
 
-		/* Return if node never found */
 		if (!ptr)
 		{
 			return;
 		}
 
-		/* Set ptr next to existing node's next time */
 		ptr->next = node->next;
 
 		/* Update tail if tail deleted */
@@ -217,7 +195,6 @@ void LinkedList_remove(LinkedList* l, Node* node)
 		}
 	}
 
-	/* Decrement size */
 	l->size--;
 
 	/* Make sure tail is NULL if new size is 0 */
@@ -226,7 +203,6 @@ void LinkedList_remove(LinkedList* l, Node* node)
 		l->tail = NULL;
 	}
 
-	/* Free memory */
 	free(node);
 }
 
