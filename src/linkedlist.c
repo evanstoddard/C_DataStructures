@@ -196,6 +196,8 @@ void LinkedList_remove(LinkedList* l, Node* node)
 			{
 				break;
 			}
+
+			ptr = ptr->next;
 		}
 
 		/* Return if node never found */
@@ -206,6 +208,13 @@ void LinkedList_remove(LinkedList* l, Node* node)
 
 		/* Set ptr next to existing node's next time */
 		ptr->next = node->next;
+
+		/* Update tail if tail deleted */
+		if (node == l->tail)
+		{
+			l->tail = ptr;
+			l->tail->next = NULL;
+		}
 	}
 
 	/* Decrement size */

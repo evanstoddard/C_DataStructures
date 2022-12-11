@@ -79,7 +79,7 @@ TEST_F(LinkedList_Tests, SingleInsertFront)
 	EXPECT_EQ(_linkedList.tail->value, 0xFEEDBEEF);
 
 	// Verify size is 1
-	EXPECT_EQ(LinkedList_size(&_linkedList), 1);
+	EXPECT_EQ(_linkedList.size, 1);
 	EXPECT_EQ(LinkedList_size(&_linkedList), 1);
 }
 
@@ -104,7 +104,6 @@ TEST_F(LinkedList_Tests, InsertTwoFront)
 
 	// Verify size is 2
 	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
-	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
 }
 
 TEST_F(LinkedList_Tests, InsertFrontLargeSet)
@@ -123,7 +122,6 @@ TEST_F(LinkedList_Tests, InsertFrontLargeSet)
 	EXPECT_EQ(_linkedList.tail->value, 0);
 
 	// Verify size is correct
-	EXPECT_EQ(LinkedList_size(&_linkedList), iterations);
 	EXPECT_EQ(LinkedList_size(&_linkedList), iterations);
 
 	// Verify values are correct
@@ -164,7 +162,6 @@ TEST_F(LinkedList_Tests, SingleInsertBack)
 
 	// Verify size is 1
 	EXPECT_EQ(LinkedList_size(&_linkedList), 1);
-	EXPECT_EQ(LinkedList_size(&_linkedList), 1);
 }
 
 TEST_F(LinkedList_Tests, InsertTwoBack)
@@ -188,7 +185,6 @@ TEST_F(LinkedList_Tests, InsertTwoBack)
 
 	// Verify size is 2
 	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
-	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
 }
 
 TEST_F(LinkedList_Tests, InsertBackLargeSet)
@@ -207,7 +203,6 @@ TEST_F(LinkedList_Tests, InsertBackLargeSet)
 	EXPECT_EQ(_linkedList.head->value, 0);
 
 	// Verify size is correct
-	EXPECT_EQ(LinkedList_size(&_linkedList), iterations);
 	EXPECT_EQ(LinkedList_size(&_linkedList), iterations);
 
 	// Verify values are correct
@@ -255,7 +250,6 @@ TEST_F(LinkedList_Tests, InsertBeforeSingleHead)
 
 	// Verify size is 2
 	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
-	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
 }
 
 TEST_F(LinkedList_Tests, InsertBeforeHeadDoubleValues)
@@ -287,8 +281,7 @@ TEST_F(LinkedList_Tests, InsertBeforeHeadDoubleValues)
 	EXPECT_EQ(_linkedList.tail, firstNode);
 	EXPECT_EQ(_linkedList.head, thirdNode);
 
-	// Verify size is 2
-	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
+	// Verify size is 3
 	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
 }
 
@@ -321,8 +314,7 @@ TEST_F(LinkedList_Tests, InsertBeforeTailDoubleValues)
 	EXPECT_EQ(_linkedList.tail, firstNode);
 	EXPECT_EQ(_linkedList.head, secondNode);
 
-	// Verify size is 2
-	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
+	// Verify size is 3
 	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
 }
 
@@ -356,7 +348,6 @@ TEST_F(LinkedList_Tests, InsertAfterSingleHead)
 
 	// Verify size is 2
 	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
-	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
 }
 
 TEST_F(LinkedList_Tests, InsertAfterHeadDoubleValues)
@@ -388,8 +379,7 @@ TEST_F(LinkedList_Tests, InsertAfterHeadDoubleValues)
 	EXPECT_EQ(_linkedList.tail, firstNode);
 	EXPECT_EQ(_linkedList.head, secondNode);
 
-	// Verify size is 2
-	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
+	// Verify size is 3
 	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
 }
 
@@ -422,7 +412,177 @@ TEST_F(LinkedList_Tests, InsertAfterTailDoubleValues)
 	EXPECT_EQ(_linkedList.tail, thirdNode);
 	EXPECT_EQ(_linkedList.head, secondNode);
 
+	// Verify size is 3
+	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
+}
+
+/*****************************************************************************
+ * Remove cases
+ *****************************************************************************/
+TEST_F(LinkedList_Tests, RemoveSingleHead)
+{
+	// Create nodes
+	Node *firstNode = LinkedList_create_node();
+	firstNode->value = 0xDEADBEEF;
+
+	// Insert Front
+	LinkedList_insert_front(&_linkedList, firstNode);
+
+	// Delete First node
+	LinkedList_remove(&_linkedList, firstNode);
+
+	// Verify size is 0
+	EXPECT_EQ(LinkedList_size(&_linkedList), 0);
+
+	// Verify head and tail are null
+	EXPECT_EQ(_linkedList.tail, nullptr);
+	EXPECT_EQ(_linkedList.head, nullptr);
+}
+
+TEST_F(LinkedList_Tests, RemoveDoubleHead)
+{
+	// Create nodes
+	Node *firstNode = LinkedList_create_node();
+	Node *secondNode = LinkedList_create_node();
+	firstNode->value = 0xDEADBEEF;
+	secondNode->value = 0xFEEDBEEF;
+
+	// Insert Front
+	LinkedList_insert_back(&_linkedList, firstNode);
+	LinkedList_insert_back(&_linkedList, secondNode);
+
+	// Delete First node
+	LinkedList_remove(&_linkedList, firstNode);
+
+	// Verify value
+	EXPECT_EQ(_linkedList.head->value, 0xFEEDBEEF);
+
+	// Verify size is 1
+	EXPECT_EQ(LinkedList_size(&_linkedList), 1);
+
+	// Verify head and tail are both second node
+	EXPECT_EQ(_linkedList.tail, secondNode);
+	EXPECT_EQ(_linkedList.head, secondNode);
+}
+
+TEST_F(LinkedList_Tests, RemoveDoubleTail)
+{
+	// Create nodes
+	Node *firstNode = LinkedList_create_node();
+	Node *secondNode = LinkedList_create_node();
+	firstNode->value = 0xDEADBEEF;
+	secondNode->value = 0xFEEDBEEF;
+
+	// Insert Front
+	LinkedList_insert_back(&_linkedList, firstNode);
+	LinkedList_insert_back(&_linkedList, secondNode);
+
+	// Delete First node
+	LinkedList_remove(&_linkedList, secondNode);
+
+	// Verify value
+	EXPECT_EQ(_linkedList.head->value, 0xDEADBEEF);
+
+	// Verify size is 1
+	EXPECT_EQ(LinkedList_size(&_linkedList), 1);
+
+	// Verify head and tail are both second node
+	EXPECT_EQ(_linkedList.tail, firstNode);
+	EXPECT_EQ(_linkedList.head, firstNode);
+}
+
+TEST_F(LinkedList_Tests, RemoveMiddle)
+{
+	// Create nodes
+	Node *firstNode = LinkedList_create_node();
+	Node *secondNode = LinkedList_create_node();
+	Node *thirdNode = LinkedList_create_node();
+
+	firstNode->value = 0xDEADBEEF;
+	secondNode->value = 0xFEEDBEEF;
+	thirdNode->value = 0xCAFEF00D;
+
+	// Insert Front
+	LinkedList_insert_back(&_linkedList, firstNode);
+	LinkedList_insert_back(&_linkedList, secondNode);
+	LinkedList_insert_back(&_linkedList, thirdNode);
+
+	// Delete First node
+	LinkedList_remove(&_linkedList, secondNode);
+
+	// Verify value
+	EXPECT_EQ(_linkedList.head->value, 0xDEADBEEF);
+	EXPECT_EQ(_linkedList.tail->value, 0xCAFEF00D);
+
 	// Verify size is 2
-	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
-	EXPECT_EQ(LinkedList_size(&_linkedList), 3);
+	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
+
+	// Verify head and tail are both second node
+	EXPECT_EQ(_linkedList.head, firstNode);
+	EXPECT_EQ(_linkedList.tail, thirdNode);
+	EXPECT_EQ(_linkedList.head->next, thirdNode);
+}
+
+TEST_F(LinkedList_Tests, RemoveHeadWithMiddle)
+{
+	// Create nodes
+	Node *firstNode = LinkedList_create_node();
+	Node *secondNode = LinkedList_create_node();
+	Node *thirdNode = LinkedList_create_node();
+
+	firstNode->value = 0xDEADBEEF;
+	secondNode->value = 0xFEEDBEEF;
+	thirdNode->value = 0xCAFEF00D;
+
+	// Insert Front
+	LinkedList_insert_back(&_linkedList, firstNode);
+	LinkedList_insert_back(&_linkedList, secondNode);
+	LinkedList_insert_back(&_linkedList, thirdNode);
+
+	// Delete First node
+	LinkedList_remove(&_linkedList, firstNode);
+
+	// Verify value
+	EXPECT_EQ(_linkedList.head->value, 0xFEEDBEEF);
+	EXPECT_EQ(_linkedList.tail->value, 0xCAFEF00D);
+
+	// Verify size is 2
+	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
+
+	// Verify head and tail are both second node
+	EXPECT_EQ(_linkedList.head, secondNode);
+	EXPECT_EQ(_linkedList.tail, thirdNode);
+	EXPECT_EQ(_linkedList.head->next, thirdNode);
+}
+
+TEST_F(LinkedList_Tests, RemoveTailWithMiddle)
+{
+	// Create nodes
+	Node *firstNode = LinkedList_create_node();
+	Node *secondNode = LinkedList_create_node();
+	Node *thirdNode = LinkedList_create_node();
+
+	firstNode->value = 0xDEADBEEF;
+	secondNode->value = 0xFEEDBEEF;
+	thirdNode->value = 0xCAFEF00D;
+
+	// Insert Front
+	LinkedList_insert_back(&_linkedList, firstNode);
+	LinkedList_insert_back(&_linkedList, secondNode);
+	LinkedList_insert_back(&_linkedList, thirdNode);
+
+	// Delete First node
+	LinkedList_remove(&_linkedList, thirdNode);
+
+	// Verify value
+	EXPECT_EQ(_linkedList.head->value, 0xDEADBEEF);
+	EXPECT_EQ(_linkedList.tail->value, 0xFEEDBEEF);
+
+	// Verify size is 2
+	EXPECT_EQ(LinkedList_size(&_linkedList), 2);
+
+	// Verify head and tail are both second node
+	EXPECT_EQ(_linkedList.head, firstNode);
+	EXPECT_EQ(_linkedList.tail, secondNode);
+	EXPECT_EQ(_linkedList.head->next, secondNode);
 }
