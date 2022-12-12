@@ -19,11 +19,13 @@ add_compile_options(
 # Sources
 set(datastructures_SOURCES
     linkedlist.c
+	doubleylinkedlist.c
 )
 
 # Headers
 set(datasstructures_HEADERS
     linkedlist.h
+	doubleylinkedlist.h
 )
 
 # Include Paths

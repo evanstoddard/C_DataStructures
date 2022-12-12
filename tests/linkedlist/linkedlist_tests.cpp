@@ -1,10 +1,21 @@
+/*
+ * Copyright (C) Evan Stoddard.
+ */
+
+/**
+ * @file linkedlist_tests.cpp
+ * @author Evan Stoddard
+ * @brief
+ */
+
 #include <gtest/gtest.h>
 #include "linkedlist.h"
 
 class LinkedList_Tests : public ::testing::Test
 {
-	protected:
-	void SetUp() override {
+protected:
+	void SetUp() override
+	{
 		// Initialize linked list
 		LinkedList_init(&_linkedList);
 	}
@@ -13,7 +24,7 @@ class LinkedList_Tests : public ::testing::Test
 	 * @brief Helper functions
 	 *
 	 */
-	protected:
+protected:
 	void insertBackIters(int iterations)
 	{
 		for (int i = 0; i < iterations; i++)
@@ -45,9 +56,8 @@ class LinkedList_Tests : public ::testing::Test
 /*****************************************************************************
  * Initialization Tests
  *****************************************************************************/
-TEST_F(LinkedList_Tests, IsEmptyInitially)
+TEST_F(LinkedList_Tests, IsEmptyPostInit)
 {
-	std::cout << __PRETTY_FUNCTION__ << std::endl;
 	// Ensure size is 0 and size getter equals struct value
 	EXPECT_EQ(LinkedList_size(&_linkedList), 0);
 	EXPECT_EQ(LinkedList_size(&_linkedList), _linkedList.size);

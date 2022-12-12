@@ -8,7 +8,7 @@ include(${CMAKE_SOURCE_DIR}/cmake/google_test.cmake)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
 # Create target
-add_executable(tests_linkedlist
+add_executable(tests_linkedlist EXCLUDE_FROM_ALL
 	linkedlist_tests.cpp
 )
 
@@ -16,4 +16,10 @@ add_executable(tests_linkedlist
 target_link_libraries(tests_linkedlist
 	GTest::gtest_main
 	datastructures
+)
+
+# Run target
+add_custom_target(tests_linkedlist_run
+	DEPENDS tests_linkedlist
+	COMMAND tests_linkedlist
 )
